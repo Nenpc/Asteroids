@@ -1,0 +1,16 @@
+{
+    "name": "Asteroids.Core.Hero",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f5ae99a209805c74cbee94719f1e0f59"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
