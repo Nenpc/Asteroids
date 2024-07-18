@@ -2,7 +2,9 @@
     "name": "Asteroids.Core.Hero",
     "rootNamespace": "",
     "references": [
-        "GUID:f5ae99a209805c74cbee94719f1e0f59"
+        "GUID:f5ae99a209805c74cbee94719f1e0f59",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:e942ff2f201b6be4fb5c1f71f7332197"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

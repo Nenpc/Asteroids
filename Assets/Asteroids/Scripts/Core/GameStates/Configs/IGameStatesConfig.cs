@@ -4,6 +4,6 @@ namespace Asteroids.Scripts.Core.GamesState.Configs
 {
     public interface IGameStatesConfig
     {
-        GameStateConfig GetGameStateConfigView(GameStates gameStatesType);
+        GameStateGUIAbstract GetGameStateConfigView(GameStates gameStatesType);
     }
 }

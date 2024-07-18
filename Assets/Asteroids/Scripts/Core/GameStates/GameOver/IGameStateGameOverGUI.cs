@@ -2,7 +2,7 @@
 
 namespace Asteroids.Scripts.Core.GamesState.GameOver
 {
-    public interface IGameStateGameOverGUI : IGameStateGUIBase
+    public interface IGameStateGameOverGUI : IGameStateGUI
     {
         public Button RestartGame { get; }
         public Button Quite { get; }

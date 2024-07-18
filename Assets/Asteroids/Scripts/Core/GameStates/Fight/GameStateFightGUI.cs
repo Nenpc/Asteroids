@@ -33,5 +33,10 @@ namespace Asteroids.Scripts.Core.GamesState.Fight
         {
             gameObject.SetActive(false);
         }
+        
+        public void Destroy()
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 }

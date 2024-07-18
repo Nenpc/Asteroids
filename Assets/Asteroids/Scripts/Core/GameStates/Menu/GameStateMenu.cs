@@ -2,41 +2,42 @@
 using Asteroids.Scripts.Core.Enums;
 using Asteroids.Infrastructure.Intermediary;
 using Asteroids.Scripts.Core.GamesState.Configs;
-using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Core.GamesState.Menu
 {
     public sealed class GameStateMenu : IIntermediaryState<GameStates>, IDisposable
     {
-        public event Action<GameStates> OnEndState;
+        public event Action<GameStates> ChangeStateAction;
         
         public GameStates State => GameStates.Menu;
 
         private IGameStateMenuGUI _gui;
-        private readonly GameStatesConfig _config;
+        private readonly IGameStatesConfig _config;
         
-        public GameStateMenu(GameStatesConfig config)
+        public GameStateMenu(IGameStatesConfig config)
         {
             _config = config;
-            LoadGUIAsync().Forget();
         }
 
-        private async UniTask LoadGUIAsync()
+        private void CreateGUI()
         {
-            _gui.StartGame.onClick.AddListener(() => OnEndState?.Invoke(State));
-            _gui.Quite.onClick.AddListener(EndGame);
+            _gui = GameObject.Instantiate(_config.GetGameStateConfigView(State)).GetComponent<IGameStateMenuGUI>();
         }
 
         public void Dispose()
         {
             _gui?.StartGame.onClick.RemoveAllListeners();
             _gui?.Quite.onClick.RemoveAllListeners();
+            _gui?.Destroy();
         }
 
         public void Start()
         {
+            CreateGUI();
             _gui.Show();
+            _gui.StartGame.onClick.AddListener(() => ChangeStateAction?.Invoke(GameStates.Fight));
+            _gui.Quite.onClick.AddListener(EndGame);
         }
         
         private void EndGame()
@@ -47,6 +48,8 @@ namespace Asteroids.Scripts.Core.GamesState.Menu
         public void End()
         {
             _gui.Hide();
+            _gui.Destroy();
+            _gui = null;
         }
     }
 }

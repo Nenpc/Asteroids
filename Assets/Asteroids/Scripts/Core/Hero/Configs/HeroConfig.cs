@@ -7,11 +7,13 @@ namespace Asteroids.Scripts.Core.Hero.Configs
     public sealed class HeroConfig : ScriptableObject, IHeroConfig
     {
         [SerializeField] private float _maxSpeed;
+        [SerializeField] private float _rotationSpeed;
         [SerializeField] private float _acceleration;
         [SerializeField] private float _braking;
         [SerializeField] private HeroView _heroView;
         
         public float Acceleration => _acceleration;
+        public float RotationSpeed => _rotationSpeed;
         public float MaxSpeed => _maxSpeed;
         public float Braking => _braking;
         public HeroView HeroView => _heroView;

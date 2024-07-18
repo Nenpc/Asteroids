@@ -1,13 +1,17 @@
-﻿namespace Asteroids.Scripts.Core.Enemies.Models
+﻿using System;
+
+namespace Asteroids.Scripts.Core.Enemies.Models
 {
     public sealed class AsteroidEnemy : BaseEnemy
     {
-        public override void Update()
+        public event Action OnDestroy;
+
+        public void FixedUpdate()
         {
             throw new System.NotImplementedException();
         }
 
-        public override void Destroy()
+        public void Destroy()
         {
             throw new System.NotImplementedException();
         }

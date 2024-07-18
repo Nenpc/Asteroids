@@ -2,7 +2,7 @@
 
 namespace Asteroids.Scripts.Core.GamesState.Menu
 {
-    public interface IGameStateMenuGUI : IGameStateGUIBase
+    public interface IGameStateMenuGUI : IGameStateGUI
     {
         public Button StartGame { get; }
         public Button Quite { get; }

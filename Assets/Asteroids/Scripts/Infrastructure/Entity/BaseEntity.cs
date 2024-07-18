@@ -2,10 +2,10 @@
 
 namespace Asteroids.Scripts.Infrastructure.Entity
 {
-    public abstract class BaseEntity
+    public interface BaseEntity
     {
-        public event Action OnDestroy; 
-        public abstract void Update();
-        public abstract void Destroy();
+        event Action OnDestroy; 
+        void FixedUpdate();
+        void Destroy();
     }
 }

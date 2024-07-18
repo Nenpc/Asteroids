@@ -7,9 +7,11 @@ namespace Asteroids.Scripts.Core.Enemies.Config
     public sealed class EnemyConfig
     {
         [SerializeField] private Enums.Enemies _enemyType;
+        [SerializeField] private int _maxCount;
         [SerializeField] private EnemyView _view;
 
         public Enums.Enemies EnemyType => _enemyType;
         public EnemyView View => _view;
+        public int MaxCount => _maxCount;
     }
 }

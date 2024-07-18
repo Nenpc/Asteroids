@@ -6,7 +6,7 @@ namespace Asteroids.Infrastructure.Intermediary
     {
         event Action<TStates> OnStateChanged;
         event Action<TStates> OnEndState;
-        void StartIntermediaryStates();
-        void EndIntermediaryStates();
+        void InitIntermediaryStates();
+        void DisableIntermediaryStates();
     }
 }

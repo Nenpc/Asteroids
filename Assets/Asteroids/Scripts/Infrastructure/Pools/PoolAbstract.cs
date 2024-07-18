@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Asteroids.Scripts.Infrastructure.Pool
+namespace Asteroids.Scripts.Infrastructure.Pools
 {
     public abstract class PoolAbstract<T> where T : new()
     {
-        public int initialSize = 10;
+        private int _initialSize;
         private List<T> _pool = new List<T>();
 
-        void Initialize()
+        void Initialize(int initialSize = 10)
         {
-            for (int i = 0; i < initialSize; i++)
+            _initialSize = initialSize;
+            for (int i = 0; i < _initialSize; i++)
             {
                 _pool.Add(new T());
             }

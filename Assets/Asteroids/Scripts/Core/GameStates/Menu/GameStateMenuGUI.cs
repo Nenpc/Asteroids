@@ -23,5 +23,10 @@ namespace Asteroids.Scripts.Core.GamesState.Menu
         {
             gameObject.SetActive(false);
         }
+        
+        public void Destroy()
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 }

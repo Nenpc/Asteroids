@@ -2,7 +2,7 @@
 
 namespace Asteroids.Scripts.Core.Enemies.Models
 {
-    public abstract class BaseEnemy : BaseEntity
+    public interface BaseEnemy : BaseEntity
     {
         
     }

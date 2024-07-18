@@ -25,14 +25,14 @@ namespace Asteroids.Scripts.Core.Enemies.Config
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            for (int i = 0; i < _enemyConfigs.Count; i++)
+            for (int i = 0; i < _enemyConfigs.Count - 1; i++)
             {
                 if (_enemyConfigs[i] == null)
                 {
                     Debug.LogError("Enemy config have null value!");
                     return;
                 }
-                for (int j = i; j < _enemyConfigs.Count; j++)
+                for (int j = i + 1; j < _enemyConfigs.Count; j++)
                 {
                     if (_enemyConfigs[j] == null)
                     {

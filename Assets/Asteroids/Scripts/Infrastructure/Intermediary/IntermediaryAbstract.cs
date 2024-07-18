@@ -16,20 +16,22 @@ namespace Asteroids.Infrastructure.Intermediary
         protected IIntermediaryState<TState> _activeState;
         protected bool _active;
 
-        public virtual void StartIntermediaryStates()
+        public void InitIntermediaryStates()
         {
             _active = true;
             StartState(FirstState);
         }
 
-        public virtual void EndIntermediaryStates()
+        public void DisableIntermediaryStates()
         {
             _active = false;
             _activeState?.End();
         }
 
-        protected virtual void StartState(TState stateType)
+        private void StartState(TState stateType)
         {
+            if (!_active) return;
+
             var state = States.FirstOrDefault(x => x.State.Equals(stateType));
 
             if (state == default)
@@ -37,23 +39,24 @@ namespace Asteroids.Infrastructure.Intermediary
                 Debug.LogWarning($"Logic for state {stateType} doesn't exist!");
                 return;
             }
-            state.OnEndState += EndState;
             OnStateChanged?.Invoke(stateType);
             _activeState = state;
+            _activeState.ChangeStateAction += ChangeState;
             state.Start();
         }
 
-        protected virtual void EndState(TState states)
+        private void ChangeState(TState nextState)
         {
-            if (_active)
+            if (!_active) return;
+            
+            if (_activeState != null)
             {
-                _activeState.OnEndState -= EndState;
+                _activeState.ChangeStateAction -= ChangeState;
                 _activeState.End();
                 OnEndState?.Invoke(_activeState.State);
-                StartState(GetNextState(_activeState.State));
             }
+            
+            StartState(nextState);
         }
-
-        protected abstract TState GetNextState(TState states);
     }
 }

@@ -25,5 +25,10 @@ namespace Asteroids.Scripts.Core.GamesState.GameOver
         {
             gameObject.SetActive(false);
         }
+        
+        public void Destroy()
+        {
+            GameObject.Destroy(gameObject);
+        }
     }
 }

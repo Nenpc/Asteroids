@@ -15,7 +15,7 @@ namespace Asteroids.Core.Initialize
 
         public void Initialize()
         {
-            _gameStateIntermediary.StartIntermediaryStates();
+            _gameStateIntermediary.InitIntermediaryStates();
         }
     }
 }

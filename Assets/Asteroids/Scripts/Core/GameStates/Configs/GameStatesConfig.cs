@@ -9,13 +9,13 @@ namespace Asteroids.Scripts.Core.GamesState.Configs
     {
         [SerializeField] private List<GameStateConfig> _gameStateConfigs;
 
-        public GameStateConfig GetGameStateConfigView(GameStates gameStatesType)
+        public GameStateGUIAbstract GetGameStateConfigView(GameStates gameStatesType)
         {
             for (int i = 0; i < _gameStateConfigs.Count; i++)
             {
                 if (_gameStateConfigs[i].GameStateType == gameStatesType)
                 {
-                    return _gameStateConfigs[i];
+                    return _gameStateConfigs[i].View;
                 }
             }
 
@@ -26,7 +26,7 @@ namespace Asteroids.Scripts.Core.GamesState.Configs
 #if UNITY_EDITOR
         private void OnValidate()
         {
-            for (int i = 0; i < _gameStateConfigs.Count; i++)
+            for (int i = 0; i < _gameStateConfigs.Count - 1; i++)
             {
                 if (_gameStateConfigs[i] == null)
                 {
@@ -34,7 +34,7 @@ namespace Asteroids.Scripts.Core.GamesState.Configs
                     return;
                 }
 
-                for (int j = i; j < _gameStateConfigs.Count; j++)
+                for (int j = i + 1; j < _gameStateConfigs.Count; j++)
                 {
                     if (_gameStateConfigs[j] == null)
                     {
