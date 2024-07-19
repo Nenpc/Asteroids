@@ -2,7 +2,10 @@
     "name": "Asteroids.Core.Weapons",
     "rootNamespace": "",
     "references": [
-        "GUID:8b19a1c750d41d84aaa54fbefebe1429"
+        "GUID:8b19a1c750d41d84aaa54fbefebe1429",
+        "GUID:f5ae99a209805c74cbee94719f1e0f59",
+        "GUID:0e147135e0a79b34682ff0d33fbb5743",
+        "GUID:71763935e4d080040bfb37ce0f57b947"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

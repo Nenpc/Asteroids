@@ -1,8 +1,8 @@
-﻿using Asteroids.Scripts.Infrastructure.Entity;
+﻿using Asteroids.Scripts.Core.Entity;
 
 namespace Asteroids.Scripts.Core.Hero.Models
 {
-    public interface IHeroModel : BaseEntity
+    public interface IHeroModel : BaseModel
     {
         void Start();
     }

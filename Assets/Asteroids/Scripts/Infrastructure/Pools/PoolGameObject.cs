@@ -5,13 +5,13 @@ using UnityEngine;
 
 namespace Asteroids.Scripts.Infrastructure.Pools
 {
-    public class PoolGameObject
+    public sealed class PoolGameObject
     {
         private GameObject _prefab;
         private int _initialSize = 10;
         private List<GameObject> _pool = new List<GameObject>();
         
-        void Initialize(GameObject prefab, int initialSize = 10)
+        public PoolGameObject(GameObject prefab, int initialSize = 10)
         {
             _prefab = prefab;
             _initialSize = initialSize;
@@ -42,6 +42,9 @@ namespace Asteroids.Scripts.Infrastructure.Pools
         public void Return(GameObject obj)
         {
             obj.SetActive(false);
+            obj.transform.rotation = quaternion.identity;
+            obj.transform.position = Vector3.zero;
+            obj.transform.parent = null;
             _pool.Add(obj);
         }
     }

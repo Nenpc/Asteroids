@@ -1,8 +1,8 @@
-﻿using Asteroids.Scripts.Infrastructure.Entity;
+﻿using Asteroids.Scripts.Core.Entity;
 
 namespace Asteroids.Scripts.Core.Enemies.Models
 {
-    public interface BaseEnemy : BaseEntity
+    public interface BaseEnemy : BaseModel
     {
         
     }

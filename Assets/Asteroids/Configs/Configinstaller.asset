@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35024b9cfdf04c37ae59fe8a921bf32b, type: 3}
   m_Name: Configinstaller
   m_EditorClassIdentifier: 
+  _weaponsConfig: {fileID: 11400000, guid: 7d8c433e81a0e584ba09f2e304a1d09c, type: 2}
   _heroConfig: {fileID: 11400000, guid: ac3e0da644484c74da14b15eabe9496f, type: 2}
   _enemiesConfig: {fileID: 11400000, guid: 073224a37d5cbe441a6f192930cca66b, type: 2}
   _gameStatesConfig: {fileID: 11400000, guid: 15e13cfd89b4f2943a5905ad1e3e1d19, type: 2}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85e51a7ff9c9475dab346af4c462f5cd, type: 3}
   m_Name: HeroConfig
   m_EditorClassIdentifier: 
-  _maxSpeed: 3
+  _maxSpeed: 0.05
   _rotationSpeed: 5
-  _acceleration: 1
-  _braking: 0.3
+  _acceleration: 0.003
+  _braking: 0.01
   _heroView: {fileID: 5521721486918632182, guid: 11c6b630ffe5ff44eb892b8edf6165bd, type: 3}

@@ -1,6 +1,8 @@
 ﻿using System;
+using Asteroids.Scripts.Core.Entity;
 using Asteroids.Scripts.Core.Hero.Configs;
 using Asteroids.Scripts.Core.Hero.View;
+using Asteroids.Scripts.Core.Weapons.Model;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,12 +10,15 @@ namespace Asteroids.Scripts.Core.Hero.Models
 {
     public sealed class HeroModel : IHeroModel
     {
-        private const float BoundStepOver = 0.5f;
+        public event Action<BaseModel> OnDestroy;
         
-        public event Action OnDestroy;
+        private const float BoundStepOver = 0.5f;
 
         private readonly IHeroConfig _heroConfig;
+        private readonly IWeaponCreator _weaponCreator;
         private readonly UserInput _userInput;
+
+        public Enums.Models ModelType => Enums.Models.Hero;
 
         private HeroView _view;
         private float _maxSpeed;
@@ -29,9 +34,10 @@ namespace Asteroids.Scripts.Core.Hero.Models
         private Vector2 _bottomRight;
         private Vector2 _topLeft;
 
-        public HeroModel(IHeroConfig heroConfig)
+        public HeroModel(IHeroConfig heroConfig, IWeaponCreator weaponCreator)
         {
             _heroConfig = heroConfig;
+            _weaponCreator = weaponCreator;
             _userInput = new UserInput();
 
             _maxSpeed = _heroConfig.MaxSpeed;
@@ -47,6 +53,7 @@ namespace Asteroids.Scripts.Core.Hero.Models
             CalculateWorldBounds();
             
             _view = GameObject.Instantiate(_heroConfig.HeroView);
+            _view.Init(this);
             
             _moveInputAction = _userInput.Player.Move;
             _userInput.Player.Move.Enable();
@@ -118,7 +125,7 @@ namespace Asteroids.Scripts.Core.Hero.Models
 
         private void FireBullet(InputAction.CallbackContext context)
         {
-
+            _weaponCreator.CreateWeapon(Enums.Weapons.Bullet,this, _view.BulletPosition, _view.transform.rotation);
         }
 
         private void FireLaser(InputAction.CallbackContext context)

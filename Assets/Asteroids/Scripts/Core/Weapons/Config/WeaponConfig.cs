@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Asteroids.Scripts.Core.Weapons.Config
 {
+    [System.Serializable]
     public sealed class WeaponConfig
     {
         [SerializeField] private Enums.Weapons _weaponType;
