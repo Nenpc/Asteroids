@@ -1,0 +1,16 @@
+{
+    "name": "Asteroids.Core.Base",
+    "rootNamespace": "",
+    "references": [
+        "GUID:8b19a1c750d41d84aaa54fbefebe1429"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,11 +1,14 @@
 ﻿using System;
 using Asteroids.Scripts.Core.Enums;
 using Asteroids.Infrastructure.Intermediary;
+using Asteroids.Scripts.Core.Enemies.Models;
 using Asteroids.Scripts.Core.GamesState.Configs;
-using Asteroids.Scripts.Core.Hero.Configs;
 using Asteroids.Scripts.Core.Hero.Models;
+using Asteroids.Scripts.Core.Weapons.Factories;
+using Asteroids.Scripts.Core.Weapons.Model;
 using Asteroids.Scripts.Infrastructure.UpdateProvider;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Asteroids.Scripts.Core.GamesState.Fight
 {
@@ -19,68 +22,79 @@ namespace Asteroids.Scripts.Core.GamesState.Fight
         private readonly IGameStatesConfig _config;
         private readonly IUpdateProvider _updateProvider;
         private readonly IHeroModel _heroModel;
+        private readonly IEnemiesCreator _enemiesCreator;
+        private readonly UserInput _userInput;
+        private readonly ILaserFactoryInfo _laserFactoryInfo;
+        private readonly IWeaponsCreator _weaponsCreator;
+
+        private bool _pause;
         
         public GameStateFight(IGameStatesConfig config, 
             IUpdateProvider updateProvider,
-            IHeroModel heroModel)
+            IHeroModel heroModel,
+            IEnemiesCreator enemiesCreator,
+            IWeaponsCreator weaponsCreator,
+            ILaserFactoryInfo laserFactoryInfo,
+            UserInput userInput)
         {
             _config = config;
             _updateProvider = updateProvider;
             _heroModel = heroModel;
-        }
-        
-        public void Dispose()
-        {
-            _gui?.Continue.onClick.RemoveAllListeners();
-            _gui?.Quite.onClick.RemoveAllListeners();
+            _enemiesCreator = enemiesCreator;
+            _laserFactoryInfo = laserFactoryInfo;
+            _userInput = userInput;
+            _weaponsCreator = weaponsCreator;
         }
         
         private void CreateGUI()
         {
             _gui = GameObject.Instantiate(_config.GetGameStateConfigView(State)).GetComponent<IGameStateFightGUI>();
-        }
-
-        private void CreateHero()
-        {
-            _heroModel.Start();
+            _gui.Init(_heroModel, _updateProvider, _laserFactoryInfo);
         }
         
-        private void CreateEnemies()
-        {
-        }
-
         public void Start()
         {
             CreateGUI();
             _gui.Show();
-            _gui.Continue.onClick.AddListener(() => ChangeStateAction?.Invoke(GameStates.GameOver));
-            _gui.Quite.onClick.AddListener(EndGame);
 
-            CreateHero();
-            CreateEnemies();
+            _heroModel.Start();
+            _heroModel.OnDestroy += (x) => ChangeStateAction?.Invoke(GameStates.GameOver);
+            
+            _enemiesCreator.Start();
+            
+            _weaponsCreator.Start();
+            
+            _userInput.Player.Pause.performed += Pause;
+            _userInput.Player.Pause.Enable();
             
             _updateProvider.OnFixedUpdate += FixedUpdate;
+            _updateProvider.Start();
+        }
+
+        private void Pause(InputAction.CallbackContext context)
+        {
+            if (_updateProvider.Pause)
+                _updateProvider.Start();
+            else
+                _updateProvider.Stop();
         }
 
         private void FixedUpdate()
         {
             _heroModel.FixedUpdate();
+            _enemiesCreator.FixedUpdate();
+            _weaponsCreator.FixedUpdate();
         }
-
-        private void EndGame()
-        {
-            Application.Quit();
-        }
-
         public void End()
         {
-            _updateProvider.OnUpdate -= FixedUpdate;
-            
-            _heroModel.Destroy();
-            
-            _gui.Hide();
-            _gui.Destroy();
-            _gui = null;
+            _updateProvider.Stop();
+            _userInput.Player.Pause.performed -= Pause;
+            _userInput.Player.Pause.Disable();
+            _updateProvider.OnFixedUpdate -= FixedUpdate;
+        }
+        
+        public void Dispose()
+        {
         }
     }
 }

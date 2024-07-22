@@ -2,7 +2,8 @@
 {
     public enum Enemies
     {
-        Asteroid,
+        AsteroidSmall,
+        AsteroidBig,
         UFO
     }
 }

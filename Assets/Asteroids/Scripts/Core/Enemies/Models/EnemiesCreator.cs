@@ -1,29 +1,40 @@
-﻿using Asteroids.Scripts.Core.Enemies.Config;
+﻿using System;
 
 namespace Asteroids.Scripts.Core.Enemies.Models
 {
     public sealed class EnemiesCreator : IEnemiesCreator
     {
-        private IEnemiesConfig _enemyConfig;
+        private readonly IEnemyFactory<AsteroidSmallEnemy> _asteroidSmallFactory;
+        private readonly IEnemyFactory<AsteroidBigEnemy> _asteroidBigFactory;
+        private readonly IEnemyFactory<UFOEnemy> _UFOFactory;
         
-        public EnemiesCreator(IEnemiesConfig enemyConfig)
+        public EnemiesCreator(IEnemyFactory<AsteroidSmallEnemy> asteroidSmallFactory,
+            IEnemyFactory<AsteroidBigEnemy> asteroidBigFactory,
+            IEnemyFactory<UFOEnemy> UFOFactory)
         {
-            _enemyConfig = enemyConfig;
+            _asteroidSmallFactory = asteroidSmallFactory;
+            _asteroidBigFactory = asteroidBigFactory;
+            _UFOFactory = UFOFactory;
         }
 
         public void Start()
         {
-            throw new System.NotImplementedException();
+            _asteroidSmallFactory.Start();
+            _asteroidBigFactory.Start();
+            _UFOFactory.Start();
         }
-
         public void FixedUpdate()
         {
-            throw new System.NotImplementedException();
+            _asteroidSmallFactory.FixedUpdate();
+            _asteroidBigFactory.FixedUpdate();
+            _UFOFactory.FixedUpdate();
         }
 
         public void End()
         {
-            throw new System.NotImplementedException();
+            _asteroidSmallFactory.End();
+            _asteroidBigFactory.End();
+            _UFOFactory.End();
         }
     }
 }

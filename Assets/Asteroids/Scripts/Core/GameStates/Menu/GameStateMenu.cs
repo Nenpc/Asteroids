@@ -28,7 +28,7 @@ namespace Asteroids.Scripts.Core.GamesState.Menu
         public void Dispose()
         {
             _gui?.StartGame.onClick.RemoveAllListeners();
-            _gui?.Quite.onClick.RemoveAllListeners();
+            _gui?.Quit.onClick.RemoveAllListeners();
             _gui?.Destroy();
         }
 
@@ -37,7 +37,7 @@ namespace Asteroids.Scripts.Core.GamesState.Menu
             CreateGUI();
             _gui.Show();
             _gui.StartGame.onClick.AddListener(() => ChangeStateAction?.Invoke(GameStates.Fight));
-            _gui.Quite.onClick.AddListener(EndGame);
+            _gui.Quit.onClick.AddListener(EndGame);
         }
         
         private void EndGame()

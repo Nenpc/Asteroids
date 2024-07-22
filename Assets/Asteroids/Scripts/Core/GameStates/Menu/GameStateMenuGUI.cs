@@ -7,12 +7,12 @@ namespace Asteroids.Scripts.Core.GamesState.Menu
     public sealed class GameStateMenuGUI : GameStateGUIAbstract, IGameStateMenuGUI
     {
         [SerializeField] private Button _startGame;
-        [SerializeField] private Button _quite;
+        [SerializeField] private Button _quit;
         
         public override GameStates States => GameStates.Menu;
 
         public Button StartGame => _startGame;
-        public Button Quite => _quite;
+        public Button Quit => _quit;
         
         public void Show()
         {

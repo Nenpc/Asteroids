@@ -14,8 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enemyConfigs:
   - _enemyType: 0
+    _startAmount: 3
+    _speed: 2.2
     _maxCount: 10
+    _spawnDelaySecond: 2
+    _lifetimeSecond: 8
     _view: {fileID: 8453522871317355401, guid: f146ac9b8f5e4fa4088a59d5be926c4a, type: 3}
   - _enemyType: 1
+    _startAmount: 2
+    _speed: 1.8
+    _maxCount: 5
+    _spawnDelaySecond: 3
+    _lifetimeSecond: 10
+    _view: {fileID: 5558660350446059350, guid: 8f30e8449e897e84b86f1e77cb93bbb1, type: 3}
+  - _enemyType: 2
+    _startAmount: 0
+    _speed: 3.1
     _maxCount: 3
+    _spawnDelaySecond: 5
+    _lifetimeSecond: 0
     _view: {fileID: 3181775026909060279, guid: 9cc8504623988684da9b0cd193e204f2, type: 3}

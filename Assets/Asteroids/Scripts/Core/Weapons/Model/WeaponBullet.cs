@@ -1,26 +1,32 @@
 ﻿using System;
-using System.Data;
-using Asteroids.Scripts.Core.Entity;
+using Asteroids.Scripts.Core.Base;
 using Asteroids.Scripts.Core.Weapons.View;
 using Asteroids.Scripts.Infrastructure.UpdateProvider;
 using UnityEngine;
 
 namespace Asteroids.Scripts.Core.Weapons.Model
 {
-    public sealed class WeaponBullet : WeaponModelAbstract
+    public sealed class WeaponBullet : WeaponModelBase
     {
-        public Enums.Weapons WeaponType => Enums.Weapons.Bullet;
+        public override Enums.Weapons WeaponType => Enums.Weapons.Bullet;
         private float _speed = 6f;
         private TimeSpan _lifeTime = new TimeSpan(0, 0, 2);
         private DateTime _startTime;
-        public WeaponBullet(WeaponView weaponView, BaseModel owner, IUpdateProvider updateProvider) : base(weaponView, owner, updateProvider)
+        public WeaponBullet(WeaponView weaponView, IShooter owner, IUpdateProvider updateProvider) : 
+            base(weaponView, owner, updateProvider)
         {
             _startTime = DateTime.Now;
         }
 
-        protected override void OnTriggerEnter(Collider obj)
+        protected override void OnTriggerEnter(Collider2D obj)
         {
-            Debug.Log(obj.name);
+            if (obj.gameObject.TryGetComponent<BaseView>(out var baseView))
+            {
+                if (baseView.Model.ModelType == Enums.Models.Enemy)
+                {
+                    Destroy();
+                }
+            }
         }
 
         public override void FixedUpdate()

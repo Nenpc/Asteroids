@@ -1,10 +1,11 @@
-﻿using UnityEngine.UI;
+﻿using Asteroids.Scripts.Core.Hero.Models;
+using Asteroids.Scripts.Core.Weapons.Factories;
+using Asteroids.Scripts.Infrastructure.UpdateProvider;
 
 namespace Asteroids.Scripts.Core.GamesState.Fight
 {
     public interface IGameStateFightGUI : IGameStateGUI
     {
-        public Button Continue { get; }
-        public Button Quite { get; }
+        void Init(IHeroModel heroModel, IUpdateProvider updateProvider, ILaserFactoryInfo laserFactoryInfo);
     }
 }

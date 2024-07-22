@@ -9,19 +9,30 @@ namespace Asteroids.Scripts.Infrastructure.UpdateProvider
         public event Action OnLateUpdate;
         public event Action OnFixedUpdate;
 
+        public void Start() => _pause = false;
+        public void Stop() => _pause = true;
+        public bool Pause => _pause;
+        
+        private bool _pause;
+        
         private void Update()
         {
-            OnUpdate?.Invoke();
+            if (!_pause)
+                OnUpdate?.Invoke();
         }
 
         private void LateUpdate()
         {
-            OnLateUpdate?.Invoke();
+            if (!_pause)
+                OnLateUpdate?.Invoke();
         }
 
         private void FixedUpdate()
         {
-            OnFixedUpdate?.Invoke();
+            if (!_pause)
+            {
+                OnFixedUpdate?.Invoke();
+            }
         }
     }
 }

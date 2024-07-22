@@ -6,6 +6,9 @@ using Asteroids.Scripts.Core.GamesState.Fight;
 using Asteroids.Scripts.Core.GamesState.GameOver;
 using Asteroids.Scripts.Core.GamesState.Menu;
 using Asteroids.Scripts.Core.Hero.Models;
+using Asteroids.Scripts.Core.Progress.Interfeces;
+using Asteroids.Scripts.Core.Progress.Models;
+using Asteroids.Scripts.Core.Weapons.Factories;
 using Asteroids.Scripts.Core.Weapons.Model;
 using Asteroids.Scripts.Infrastructure.UpdateProvider;
 using UnityEngine;
@@ -20,12 +23,13 @@ namespace Asteroids.Core.Initialize
         {
             BindHero();
             BindGameSate();
-            BindEnemyCreator();
-            BindWeaponCreator();
-            
+            BindEnemy();
+            BindWeapon();
+
+            Container.Bind<UserInput>().FromInstance(new UserInput());
             Container.Bind<IUpdateProvider>().FromInstance(_updateProvider);
             Container.Bind<IInitializable>().To<GameInitializer>().AsSingle().NonLazy();
-            Container.Bind<IInitializable>().To<AdditionalInitializer>().AsSingle().NonLazy();
+            Container.Bind<IProgressModel>().To<ProgressModel>().AsSingle().NonLazy();
         }
 
         private void BindGameSate()
@@ -42,14 +46,19 @@ namespace Asteroids.Core.Initialize
             Container.Bind<IHeroModel>().To<HeroModel>().AsSingle().NonLazy();
         }
         
-        private void BindEnemyCreator()
+        private void BindEnemy()
         {
+            Container.Bind(typeof(IEnemyFactory<AsteroidSmallEnemy>), typeof(ICreateAsteroidPosition)).To<AsteroidSmallFactory>().AsSingle().NonLazy();
+            Container.Bind<IEnemyFactory<UFOEnemy>>().To<UFOFactory>().AsSingle().NonLazy();
+            Container.Bind<IEnemyFactory<AsteroidBigEnemy>>().To<AsteroidBigFactory>().AsSingle().NonLazy();
             Container.Bind<IEnemiesCreator>().To<EnemiesCreator>().AsSingle().NonLazy();
         }
         
-        private void BindWeaponCreator()
+        private void BindWeapon()
         {
-            Container.Bind<IWeaponCreator>().To<WeaponCreator>().AsSingle().NonLazy();
+            Container.Bind(typeof(IWeaponFactory<WeaponLaser>), typeof(ILaserFactoryInfo)).To<LaserFactory>().AsSingle().NonLazy();
+            Container.Bind<IWeaponFactory<WeaponBullet>>().To<BulletFactory>().AsSingle().NonLazy();
+            Container.Bind<IWeaponsCreator>().To<WeaponsCreator>().AsSingle().NonLazy();
         }
     }
 }

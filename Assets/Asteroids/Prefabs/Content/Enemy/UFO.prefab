@@ -27,7 +27,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6849219511021280424}
@@ -73,12 +73,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 84ea949a216f3864492bf340aec76483, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0046bc367e1f20341898533752ea7ab6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1.28, y: 1.28}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 6849219511021280424}
   - component: {fileID: 3181775026909060279}
   - component: {fileID: 5701997651240823223}
+  - component: {fileID: 1202599812667013874}
   m_Layer: 0
   m_Name: UFO
   m_TagString: Untagged
@@ -174,9 +175,36 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.005139023, y: 0.56832564}
-      - {x: -0.8482769, y: 0.026373059}
-      - {x: -0.67514795, y: -0.4801222}
-      - {x: 0.7162599, y: -0.47498316}
-      - {x: 0.83799887, y: 0.052068114}
+    - - {x: -0.016855165, y: 0.43944806}
+      - {x: -0.65788954, y: -0.011704411}
+      - {x: -0.5374832, y: -0.383464}
+      - {x: 0.5551628, y: -0.37539595}
+      - {x: 0.6534695, y: -0.0006545484}
   m_UseDelaunayMesh: 0
+--- !u!50 &1202599812667013874
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6820348014044608684}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0

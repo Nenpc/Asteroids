@@ -1,5 +1,5 @@
 ﻿using System;
-using Asteroids.Scripts.Core.Entity;
+using Asteroids.Scripts.Core.Base;
 using Asteroids.Scripts.Core.Hero.Configs;
 using Asteroids.Scripts.Core.Hero.View;
 using Asteroids.Scripts.Core.Weapons.Model;
@@ -8,17 +8,20 @@ using UnityEngine.InputSystem;
 
 namespace Asteroids.Scripts.Core.Hero.Models
 {
-    public sealed class HeroModel : IHeroModel
+    public sealed class HeroModel : IHeroModel, IShooter
     {
-        public event Action<BaseModel> OnDestroy;
+        public event Action<IBaseModel> OnDestroy;
         
         private const float BoundStepOver = 0.5f;
 
         private readonly IHeroConfig _heroConfig;
-        private readonly IWeaponCreator _weaponCreator;
+        private readonly IWeaponsCreator _weaponCreator;
         private readonly UserInput _userInput;
 
         public Enums.Models ModelType => Enums.Models.Hero;
+        public BaseView View => _view;
+        public Transform BulletStartPosition => _view.BulletPosition;
+        public float Speed => _currentSpeed.sqrMagnitude * 1000;
 
         private HeroView _view;
         private float _maxSpeed;
@@ -34,11 +37,11 @@ namespace Asteroids.Scripts.Core.Hero.Models
         private Vector2 _bottomRight;
         private Vector2 _topLeft;
 
-        public HeroModel(IHeroConfig heroConfig, IWeaponCreator weaponCreator)
+        public HeroModel(IHeroConfig heroConfig, IWeaponsCreator weaponCreator, UserInput userInput)
         {
             _heroConfig = heroConfig;
             _weaponCreator = weaponCreator;
-            _userInput = new UserInput();
+            _userInput = userInput;
 
             _maxSpeed = _heroConfig.MaxSpeed;
             _rotationSpeed = _heroConfig.RotationSpeed;
@@ -47,13 +50,34 @@ namespace Asteroids.Scripts.Core.Hero.Models
             _currentSpeed = Vector2.zero;
             _angle = 0;
         }
+        
+        public void Destroy()
+        {
+            _view.OnTrigger -= OnTriggerEnter;
+            GameObject.Destroy(_view.gameObject);
+            _currentSpeed = Vector2.zero;
+            _angle = 0;
 
+            _moveInputAction = null;
+            _userInput.Player.Move.Disable();
+            
+            _rotationInputAction = null;
+            _userInput.Player.Rotation.Disable();
+            
+            _userInput.Player.FireBullet.performed -= FireBullet;
+            _userInput.Player.FireBullet.Disable();
+            
+            _userInput.Player.FireLaser.performed -= FireLaser;
+            _userInput.Player.FireLaser.Disable();
+        }
+        
         public void Start()
         {
             CalculateWorldBounds();
             
             _view = GameObject.Instantiate(_heroConfig.HeroView);
             _view.Init(this);
+            _view.OnTrigger += OnTriggerEnter;
             
             _moveInputAction = _userInput.Player.Move;
             _userInput.Player.Move.Enable();
@@ -66,18 +90,17 @@ namespace Asteroids.Scripts.Core.Hero.Models
             
             _userInput.Player.FireLaser.performed += FireLaser;
             _userInput.Player.FireLaser.Enable();
-            
-            _userInput.Player.Pause.performed += Pause;
-            _userInput.Player.Pause.Enable();
         }
-
-        private void CalculateWorldBounds()
+        
+        private void OnTriggerEnter(Collider2D obj)
         {
-            float width = Camera.main.pixelWidth;
-            float height = Camera.main.pixelHeight;
-
-            _bottomRight = Camera.main.ScreenToWorldPoint(new Vector2 (width, 0));
-            _topLeft = Camera.main.ScreenToWorldPoint(new Vector2 (0, height));
+            if (obj.gameObject.TryGetComponent<BaseView>(out var baseView))
+            {
+                if (baseView.Model.ModelType == Enums.Models.Enemy)
+                {
+                    OnDestroy?.Invoke(this);
+                }
+            }
         }
 
         public void FixedUpdate()
@@ -91,7 +114,12 @@ namespace Asteroids.Scripts.Core.Hero.Models
             var move = _moveInputAction.ReadValue<float>();
             if (move != 0)
             {
-                _currentSpeed = Vector2.ClampMagnitude((Vector2.up * _acceleration * Time.fixedTime) + _currentSpeed, _maxSpeed);
+                _currentSpeed = Vector2.ClampMagnitude((Vector2.up * _acceleration * Time.fixedDeltaTime) + _currentSpeed, _maxSpeed);
+                _view.Fire.SetActive(true);
+            }
+            else
+            {
+                _view.Fire.SetActive(false);
             }
 
             if (_currentSpeed != Vector2.zero)
@@ -116,26 +144,23 @@ namespace Asteroids.Scripts.Core.Hero.Models
                 _view.transform.position = new Vector3(_topLeft.x, _view.transform.position.y);
         }
 
-        public void Destroy()
-        {
-            GameObject.Destroy(_view);
-            _currentSpeed = Vector2.zero;
-            _angle = 0;
-        }
-
         private void FireBullet(InputAction.CallbackContext context)
         {
-            _weaponCreator.CreateWeapon(Enums.Weapons.Bullet,this, _view.BulletPosition, _view.transform.rotation);
+            _weaponCreator.CreateWeapon(Enums.Weapons.Bullet,this);
         }
 
         private void FireLaser(InputAction.CallbackContext context)
         {
-            Debug.Log("FireLaser");
+            _weaponCreator.CreateWeapon(Enums.Weapons.Laser,this);
         }
-
-        private void Pause(InputAction.CallbackContext context)
+        
+        private void CalculateWorldBounds()
         {
-            Debug.Log("Pause");
+            float width = Camera.main.pixelWidth;
+            float height = Camera.main.pixelHeight;
+
+            _bottomRight = Camera.main.ScreenToWorldPoint(new Vector2 (width, 0));
+            _topLeft = Camera.main.ScreenToWorldPoint(new Vector2 (0, height));
         }
     }
 }
