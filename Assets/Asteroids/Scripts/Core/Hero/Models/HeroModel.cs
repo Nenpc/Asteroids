@@ -114,7 +114,7 @@ namespace Asteroids.Scripts.Core.Hero.Models
             var move = _moveInputAction.ReadValue<float>();
             if (move != 0)
             {
-                _currentSpeed = Vector2.ClampMagnitude((Vector2.up * _acceleration * Time.fixedDeltaTime) + _currentSpeed, _maxSpeed);
+                _currentSpeed = Vector2.ClampMagnitude((GetAngle() * _acceleration * Time.fixedDeltaTime) + _currentSpeed, _maxSpeed);
                 _view.Fire.SetActive(true);
             }
             else
@@ -124,11 +124,19 @@ namespace Asteroids.Scripts.Core.Hero.Models
 
             if (_currentSpeed != Vector2.zero)
             {
-                _view.transform.Translate(_currentSpeed, Space.Self);
+                _view.transform.Translate(_currentSpeed, Space.World);
                 _currentSpeed = Vector2.Lerp(_currentSpeed, Vector2.zero, _braking);
             }
 
             CheckBounds();
+        }
+
+        private Vector2 GetAngle()
+        {
+            var b = Mathf.Deg2Rad * (360 - _view.transform.rotation.eulerAngles.z);
+            var AB = Mathf.Sin(b);
+            var OA = Mathf.Cos(b);
+            return new Vector2(AB, OA);
         }
 
         private void CheckBounds()
