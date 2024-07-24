@@ -1,19 +1,19 @@
 ﻿using Asteroids.Infrastructure.Intermediary;
 using Asteroids.Scripts.Core.Enums;
-using Zenject;
 
 namespace Asteroids.Core.Initialize
 {
-    public sealed class GameInitializer : IInitializable
+    public sealed class GameInitializer
     {
         private readonly IIntermediary<GameStates> _gameStateIntermediary;
 
         public GameInitializer(IIntermediary<GameStates> gameStateIntermediary)
         {
             _gameStateIntermediary = gameStateIntermediary;
+            Initialize();
         }
 
-        public void Initialize()
+        private void Initialize()
         {
             _gameStateIntermediary.InitIntermediaryStates();
         }

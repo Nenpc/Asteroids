@@ -2,7 +2,6 @@
     "name": "Asteroids.Core.Initialize",
     "rootNamespace": "",
     "references": [
-        "GUID:0d8beb7f090555447a6cf5ce9e54dbb4",
         "GUID:b17ab75505fb9654fbb2232810dd84f9",
         "GUID:cc164498ea3a3094bbd36bda6323186b",
         "GUID:f7a392a416736524f961d469f67b0131",
